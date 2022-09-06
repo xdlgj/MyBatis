@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper接口的全类名和映射文件的命名空间（namespace）保持一致 -->
+<mapper namespace="com.xdl.mapper.UserMapper">
+    <!--int insertUser();-->
+    <insert id="insertUser">
+        insert into t_user values(null,'张三','123',23,'女', "zhangshan@qq.com")
+    </insert>
+    <!--void updateUser();-->
+    <update id="updateUser">
+        update t_user set username="李四" where id=3
+    </update>
+    <!--void deleteUser();-->
+    <delete id="deleteUser">
+        delete from  t_user where id=3
+    </delete>
+    <!--
+        查询功能的标签必须设置resultType或resultMap
+        resultType：设置默认的映射关系（实体类属性与表字段一致时使用）
+        resultMap：设置自定义的映射关系（实体类属性与表字段不一致 或 一对多、多对多时使用）
+    -->
+    <select id="getUserById" resultType="com.xdl.pojo.User">
+        select * from t_user where id=4
+    </select>
+    <select id="getAllUser" resultType="com.xdl.pojo.User">
+            select * from t_user
+     </select>
+</mapper>
