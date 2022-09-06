@@ -24,7 +24,7 @@
     <select id="getUserById" resultType="com.xdl.pojo.User">
         select * from t_user where id=4
     </select>
-    <select id="getAllUser" resultType="com.xdl.pojo.User">
+    <select id="getAllUser" resultType="User">
             select * from t_user
      </select>
 </mapper>
