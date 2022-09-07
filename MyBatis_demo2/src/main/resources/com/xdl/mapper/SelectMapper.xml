@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper接口的全类名和映射文件的命名空间（namespace）保持一致 -->
+<mapper namespace="com.xdl.mapper.SelectMapper">
+    <!--User getUserById(@Param("id") int id);-->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id=#{id}
+    </select>
+    <!--List<User> getUserList();-->
+    <select id="getUserList" resultType="User">
+        select * from t_user;
+    </select>
+    <!--int getCount();-->
+    <select id="getCount" resultType="_integer">
+        select count(id) from t_user
+    </select>
+    <!--Map<String, Object> getUserToMap(@Param("id") int id);-->
+    <select id="getUserToMap" resultType="map">
+        select * from t_user where id = #{id}
+    </select>
+    <!--结果：{password=123, sex=女, id=2, age=23, email=zhangshan@qq.com, username=李四}-->
+
+    <!--Map<String, Object> getAllUserToMap();-->
+    <select id="getAllUserToMap" resultType="Map">
+        select * from t_user
+    </select>
+    <!--结果：[{password=123, sex=女, id=2, age=23, email=zhangshan@qq.com, username=李四}]-->
+
+    <!--Map<String, Object> getAllUserToMap2();-->
+    <select id="getAllUserToMap2" resultType="map">
+        select * from t_user
+    </select>
+    <!--结果：{2={password=123, sex=女, id=2, age=23, email=zhangshan@qq.com, username=李四}}-->
+</mapper>
