@@ -8,6 +8,10 @@
     <settings>
         <!--将下划线自动映射为驼峰 emp_name -> empName-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--当开启时，所有关联对象都会延迟加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--任何方法的调用都会加载该对象的所有属性。 否则，每个属性会按需加载, 3.4.1版本之前默认为true-->
+<!--        <setting name="aggressiveLazyLoading" value="false"/>-->
     </settings>
     <typeAliases>
         <package name="com.xdl.pojo"/>

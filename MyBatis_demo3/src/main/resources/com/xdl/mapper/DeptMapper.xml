@@ -8,4 +8,37 @@
     <select id="getEmpAndDeptByStepTwo" resultType="Dept">
         select * from t_dept where did = #{did}
     </select>
+
+    <resultMap id="deptEmpMap" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <!--
+        ofType：设置collection标签所处理的集合属性中存储数据的类型
+        -->
+        <collection property="emps" ofType="Emp">
+            <id property="eid" column="eid"></id>
+            <result property="empName" column="emp_name"></result>
+            <result property="age" column="age"></result>
+            <result property="sex" column="sex"></result>
+            <result property="email" column="email"></result>
+        </collection>
+    </resultMap>
+    <!--Dept getDeptEmpByDid(@Param("did") int did);-->
+    <select id="getDeptEmpByDid" resultMap="deptEmpMap">
+        select * from t_dept left join t_emp on t_dept.did = t_emp.did where t_dept.did = #{did}
+    </select>
+
+    <resultMap id="deptEmpByStepMap" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <!--fetchType: 指定是懒加载（lazy）还是立即加载（eager）-->
+        <collection property="emps"
+                    select="com.xdl.mapper.EmpMapper.getDeptAndEmpByStepTwo"
+                    column="did"
+                    fetchType="eager"></collection>
+    </resultMap>
+    <!--Dept getDeptAndEmpByStepOne(@Param("did") int did);-->
+    <select id="getDeptAndEmpByStepOne" resultMap="deptEmpByStepMap">
+        select * from t_dept where did = #{did}
+    </select>
 </mapper>
