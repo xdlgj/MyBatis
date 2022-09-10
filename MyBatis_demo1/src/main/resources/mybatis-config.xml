@@ -13,8 +13,8 @@
         alias：设置此类型的别名，若不设置此属性，该类型拥有默认的别名，即类名且不区分大小写
         若设置此属性，此时该类型的别名只能使用alias所设置的值(不区分大小写)
         -->
-        <!--<typeAlias type="com.xdl.pojo.User"></typeAlias>-->
-        <typeAlias type="com.xdl.pojo.User" alias="abc"></typeAlias>
+        <!--<typeAlias type="com.xdl.pojo.Emp"></typeAlias>-->
+        <typeAlias type="com.xdl.pojo.Emp" alias="abc"></typeAlias>
         <!--以包为单位，设置改包下所有的类型都拥有默认的别名，即类名且不区分大小写-->
         <package name="com.xdl.pojo"/>
     </typeAliases>

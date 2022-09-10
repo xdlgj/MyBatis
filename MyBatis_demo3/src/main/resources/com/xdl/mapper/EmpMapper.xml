@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper接口的全类名和映射文件的命名空间（namespace）保持一致 -->
+<mapper namespace="com.xdl.mapper.EmpMapper">
+    <!--
+        resultMap：设置自定义映射
+        属性：
+            id：表示自定义映射的唯一标识
+            type：查询的数据要映射的实体类的类型
+        子标签：
+            id：设置主键的映射关系
+            result：设置普通字段的映射关系
+            association：设置多对一的映射关系
+            collection：设置一对多的映射关系
+        属性：
+            property：设置映射关系中实体类中的属性名
+            column：设置映射关系中表中的字段名
+    -->
+    <resultMap id="empMap" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+    </resultMap>
+    <!--List<Emp> getAllEmp();-->
+    <!--
+       由于表中的员工名称为emp_user,实体类中为empUser，所以查询出来的结果为null
+       方案一：sql语句中添加别名
+       方案二：使用resultMap
+       方案三：使用全局配置
+    -->
+    <select id="getAllEmp" resultMap="empMap">
+        <!-- 方案一：select eid, emp_name empName, age, sex, email, did from t_emp;-->
+        select * from t_emp
+    </select>
+    <resultMap id="empAndDeptMapOne" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <result property="dept.did" column="did"></result>
+        <result property="dept.deptName" column="dept_name"></result>
+    </resultMap>
+    <resultMap id="empAndDeptMapTwo" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <association property="dept" javaType="Dept">
+            <id property="did" column="did"></id>
+            <result property="deptName" column="dept_name"></result>
+        </association>
+    </resultMap>
+    <!--Emp getEmpAndDeptById(@Param("eid") Integer eid);-->
+    <select id="getEmpAndDeptById" resultMap="empAndDeptMapTwo">
+        select *
+        from t_emp
+                 left join t_dept on t_emp.did = t_dept.did
+        where t_emp.eid = #{eid}
+    </select>
+
+    <resultMap id="empAndDeptByStepMap" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <!--
+            select: 设置分步查询的sql的唯一标识（namespace.SQLId 或mapper接口的全类名.方法名）
+            column：设置分步（第二步）查询的条件
+        -->
+        <association property="dept" column="did"
+                     select="com.xdl.mapper.DeptMapper.getEmpAndDeptByStepTwo"></association>
+    </resultMap>
+    <!--Emp getEmpAndDeptByStepOne(@Param("eid") Integer eid);-->
+    <select id="getEmpAndDeptByStepOne" resultMap="empAndDeptByStepMap">
+        select *
+        from t_emp
+        where eid = #{eid}
+    </select>
+</mapper>

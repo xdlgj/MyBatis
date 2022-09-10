@@ -21,7 +21,7 @@
         resultType：设置默认的映射关系（实体类属性与表字段一致时使用）
         resultMap：设置自定义的映射关系（实体类属性与表字段不一致 或 一对多、多对多时使用）
     -->
-    <select id="getUserById" resultType="com.xdl.pojo.User">
+    <select id="getUserById" resultType="com.xdl.pojo.Emp">
         select * from t_user where id=4
     </select>
     <select id="getAllUser" resultType="User">
