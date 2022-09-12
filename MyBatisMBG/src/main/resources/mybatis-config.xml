@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"></properties>
+    <!--mybatis的全局配置文件-->
+    <settings>
+        <!--将下划线自动映射为驼峰 emp_name -> empName-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--当开启时，所有关联对象都会延迟加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--任何方法的调用都会加载该对象的所有属性。 否则，每个属性会按需加载, 3.4.1版本之前默认为true-->
+<!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+        <!--开启二级缓存，默认是开启的，可以不用设置-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <typeAliases>
+        <package name="com.xdl.pojo"/>
+    </typeAliases>
+    <plugins>
+        <!--设置分页插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <package name="com.xdl.mapper"/>
+    </mappers>
+</configuration>
