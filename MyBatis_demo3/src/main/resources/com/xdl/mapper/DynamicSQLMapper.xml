@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper接口的全类名和映射文件的命名空间（namespace）保持一致 -->
+<mapper namespace="com.xdl.mapper.DynamicSQLMapper">
+    <!--设置sql片段-->
+    <sql id="empColumns">eid, emp_name, age, sex, email</sql>
+    <!--List<Emp> getEmpByCondition(Emp emp);-->
+    <select id="getEmpByCondition" resultType="Emp">
+        <!--使用1=1解决无条件成立的情况-->
+        select <include refid="empColumns"/> from t_emp where 1=1
+        <if test="empName != null and empName != ''">
+            and emp_name = #{empName}
+        </if>
+        <if test="age != null and age != ''">
+            and age = #{age}
+        </if>
+        <if test="sex != null and sex != ''">
+            and sex = #{sex}
+        </if>
+        <if test="email != null and email != ''">
+            and email = #{email}
+        </if>
+    </select>
+    <!--List<Emp> getEmpByConditionWhere(Emp emp);-->
+    <select id="getEmpByConditionWhere" resultType="Emp">
+        select * from t_emp
+        <where>
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+        </where>
+    </select>
+    <!--List<Emp> getEmpByConditionTrim(Emp emp);-->
+    <select id="getEmpByConditionTrim" resultType="Emp">
+        select * from t_emp
+        <trim prefix="where" suffixOverrides="and">
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName} and
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age} and
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex} and
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email} and
+            </if>
+        </trim>
+    </select>
+    <!--List<Emp> getEmpByConditionChoose(Emp emp);-->
+    <select id="getEmpByConditionChoose" resultType="Emp">
+        select * from t_emp
+        <where>
+            <choose>
+                <when test="empName != null and empName != ''">
+                    emp_name = #{empName}
+                </when>
+                <when test="age != null and age != ''">
+                    age = #{age}
+                </when>
+                <when test="sex != null and sex != ''">
+                    sex = #{sex}
+                </when>
+                <when test="email != null and email != ''">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    did = 2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--int deleteEmpMoreByIds(@Param("eids") Integer[] eids);-->
+    <delete id="deleteEmpMoreByIds">
+       <!-- delete from t_emp where eid in ( ? , ? , ? )
+
+        delete from t_emp where eid in
+        <foreach collection="eids" item="eid" separator="," open="(" close =")">
+            #{eid}
+        </foreach>
+       -->
+        <!-- 该语句有一个高危的操作，如果eids为空数组，则将会删除中所有的数据，建议where不要写在open中-->
+        delete from t_emp
+        <foreach collection="eids" item="eid" separator="or" open="where">
+            eid = #{eid}
+        </foreach>
+    </delete>
+    <!--int insertEmpMoreByList(@Param("emps") List<Emp> emps);-->
+    <insert id="insertEmpMoreByList">
+        insert into t_emp values
+        <foreach collection="emps" item="emp" separator=",">
+            (null, #{emp.empName}, #{emp.age}, #{emp.sex}, #{emp.email}, 1)
+        </foreach>
+    </insert>
+</mapper>
