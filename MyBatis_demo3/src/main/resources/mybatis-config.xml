@@ -12,6 +12,8 @@
         <setting name="lazyLoadingEnabled" value="true"/>
         <!--任何方法的调用都会加载该对象的所有属性。 否则，每个属性会按需加载, 3.4.1版本之前默认为true-->
 <!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+        <!--开启二级缓存，默认是开启的，可以不用设置-->
+        <setting name="cacheEnabled" value="true"/>
     </settings>
     <typeAliases>
         <package name="com.xdl.pojo"/>
