@@ -25,7 +25,7 @@ class MybatisPlusDemoApplicationTests {
 
     @Test
     public void testInsert(){
-        User user = new User(null, "张三", 23, "zhangsan@atguigu.com");
+        User user = new User(null, "张三", 23, "zhangsan@atguigu.com", null);
         //INSERT INTO user ( id, name, age, email ) VALUES ( ?, ?, ?, ? )
         int result = userMapper.insert(user);
         System.out.println("受影响行数："+result);
@@ -36,7 +36,7 @@ class MybatisPlusDemoApplicationTests {
     public void testDeleteByID() {
         //通过id删除用户信息
         //DELETE FROM user WHERE id=?
-        int result = userMapper.deleteById(1);
+        int result = userMapper.deleteById(4);
         System.out.println("受影响行数："+result);
     }
     @Test
@@ -59,7 +59,7 @@ class MybatisPlusDemoApplicationTests {
     }
     @Test
     public void testUpdateById(){
-        User user = new User(6L, "admin", 22, null);
+        User user = new User(6L, "admin", 22, null, null);
         // 为null的字段不会被更新
         //UPDATE user SET name=?, age=? WHERE id=?
         int result = userMapper.updateById(user);
