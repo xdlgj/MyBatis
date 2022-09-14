@@ -189,4 +189,13 @@ public class MyBatisPlusWrapperTest {
         int result = userMapper.update(user, updateWrapper);
         System.out.println("受影响的行数：" + result);
     }
+    @Test
+    public void test13() {
+        /**
+         * 方法引用 User::getName，改为lambda表达式或匿名内部类时就会报错，为什么？
+         */
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like((SFunction<User, String>) User::getName, "a");
+        userMapper.selectList(lambdaQueryWrapper);
+    }
 }
