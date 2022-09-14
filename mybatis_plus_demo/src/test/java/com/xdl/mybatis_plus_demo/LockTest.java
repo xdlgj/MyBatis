@@ -1,7 +1,10 @@
 package com.xdl.mybatis_plus_demo;
 
 import com.xdl.mybatis_plus_demo.bean.Product;
+import com.xdl.mybatis_plus_demo.bean.User;
+import com.xdl.mybatis_plus_demo.enums.SexEnum;
 import com.xdl.mybatis_plus_demo.mapper.ProductMapper;
+import com.xdl.mybatis_plus_demo.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class LockTest {
     @Autowired
     ProductMapper productMapper;
+    @Autowired
+    UserMapper userMapper;
     @Test
     public void test01() {
         // 小李
@@ -35,6 +40,19 @@ public class LockTest {
         //最后的结果
         Product productBoss = productMapper.selectById(1L);
         System.out.println("最后的结果：" + productBoss.getPrice());
-
+    }
+    @Test
+    public void testSexEnum(){
+        User user = new User();
+        user.setName("Enum");
+        user.setAge(20);
+        //设置性别信息为枚举项，会将@EnumValue注解所标识的属性值存储到数据库
+        user.setSex(SexEnum.MALE);
+        //INSERT INTO t_user ( username, age, sex ) VALUES ( ?, ?, ? )
+        //Parameters: Enum(String), 20(Integer), 1(Integer)
+        //userMapper.insert(user);
+        User user1 = userMapper.selectById(9);
+        System.out.println(user1);
+        // User(id=9, name=Enum, age=20, email=null, isDeleted=0, sex=MALE)
     }
 }

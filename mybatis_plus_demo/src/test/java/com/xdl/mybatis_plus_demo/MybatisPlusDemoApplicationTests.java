@@ -25,7 +25,7 @@ class MybatisPlusDemoApplicationTests {
 
     @Test
     public void testInsert(){
-        User user = new User(null, "张三", 23, "zhangsan@atguigu.com", null);
+        User user = new User(null, "张三", 23, "zhangsan@atguigu.com", null, null);
         //INSERT INTO user ( id, name, age, email ) VALUES ( ?, ?, ?, ? )
         int result = userMapper.insert(user);
         System.out.println("受影响行数："+result);
@@ -59,7 +59,7 @@ class MybatisPlusDemoApplicationTests {
     }
     @Test
     public void testUpdateById(){
-        User user = new User(6L, "admin", 22, null, null);
+        User user = new User(6L, "admin", 22, null, null, null);
         // 为null的字段不会被更新
         //UPDATE user SET name=?, age=? WHERE id=?
         int result = userMapper.updateById(user);

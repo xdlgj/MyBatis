@@ -1,6 +1,7 @@
 package com.xdl.mybatis_plus_demo.bean;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.xdl.mybatis_plus_demo.enums.SexEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class User {
     private String email;
     @TableLogic
     private Integer isDeleted;
+    private SexEnum sex;
 }

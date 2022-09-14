@@ -21,4 +21,7 @@ mybatis-plus:
       id-type: auto
   # 配置类型别名所对应的包
   type-aliases-package: com.xdl.mybatis_plus_demo.bean
+  # 配置扫描通用枚举
+  type-enums-package: com.xdl.mybatis_plus_demo.enums
+
 
